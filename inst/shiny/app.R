@@ -1,10 +1,11 @@
 library(shiny)
 library(dplyr)
 library(ggplot2)
+library(shinythemes)
 
 # Load the data
 # Adjusted to match your package structure if this code is running in a package
-data("nyc_data", package = "myShinyPackage")
+data("nyc_data", package = "Shiny)")
 
 # Convert DATE column to Date type for filtering
 nyc_data$DATE <- as.Date(nyc_data$DATE, format = "%m/%d/%Y")
@@ -51,6 +52,21 @@ server <- function(input, output) {
 
 # Launch the Shiny app
 shinyApp(ui, server)
+
+#' Filter NYC Collision Data by Date Range and Borough
+#'
+#' @param data The NYC collisions dataset.
+#' @param start_date The start date as "YYYY-MM-DD".
+#' @param end_date The end date as "YYYY-MM-DD".
+#' @param borough The borough to filter by.
+#' @return A filtered dataframe.
+#' @export
+filter_collisions <- function(data, start_date, end_date, borough) {
+  data %>%
+    filter(DATE >= as.Date(start_date) & DATE <= as.Date(end_date)) %>%
+    filter(BOROUGH == borough)
+}
+
 
 
 
